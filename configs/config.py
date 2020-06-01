@@ -1,5 +1,7 @@
 import os
 
+
+SQLALCHEMY_TRACK_MODIFICATIONS = False
 # Statement for enabling the development environment
 DEBUG = True
 
@@ -7,8 +9,7 @@ DEBUG = True
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 
 # Define the database - we are working with
-# SQLite for this example
-SQLALCHEMY_DATABASE_URI = "postgresql://user:password@host:port/db_name"
+SQLALCHEMY_DATABASE_URI = "postgresql://chat_user:C@Gh!bL@localhost:5432/pos_db"
 DATABASE_CONNECT_OPTIONS = {}
 
 # Application threads. A common general assumption is

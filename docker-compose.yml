@@ -4,17 +4,27 @@ services:
     build:
       context: .
       dockerfile: ./docker/app.Dockerfile
-    environment:
-      - FLASK_APP=run.py
-      - 'RUN=flask run --host=0.0.0.0 --port=80'
-    command: flask run --host=0.0.0.0 --port=80
+    command: gunicorn --bind 0.0.0.0:5000 manage:app
+    ports:
+      - 5000:5000
+    expose:
+      - 5000
+
+  nginx:
+    build:
+      context: .
+      dockerfile: ./docker/nginx.Dockerfile
+    ports:
+      - 80:80
+    depends_on:
+      - web
 
   db:
     environment:
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: database
-    image: postgres:latest
+      POSTGRES_ROOT_USER: ${POSTGRES_ROOT_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_ROOT_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DATABASE}
+    image: postgres:${POSTGRES_VERSION}
     networks:
       - default
     ports:
